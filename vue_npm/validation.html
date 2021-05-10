@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue TEST</title>
+<!-- Vue.js を読み込む -->
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script src="./js/validation.js"></script>
+</head>
+<body>
+  
+<style>
+#app-2 .error {
+  color: red;
+}
+</style>
+<div id="app-2">
+  <input type="text" v-model="message">
+  <div class="error" v-if="error.require">必須項目です。</div>
+  <div class="error" v-if="error.tooLong">長すぎます。</div>
+</div>
+
+</body>
+</html>
+

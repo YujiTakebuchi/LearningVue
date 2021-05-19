@@ -23,7 +23,7 @@ npm:説明
 ### Hello World
 Hello worldではVue.jsの基本的な使い方を勉強します。  
 
-利用方法
+利用方法  
 CDN:  
 scriptタグでCDNで公開されているライブラリを利用する  
 ```html

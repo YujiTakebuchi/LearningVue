@@ -76,4 +76,26 @@ var app102 = new Vue({
 ```
 
 このようにhtmlタグを読み取って描画してくれる  
-しかし脆弱性を含むためクロスサイトスクリプティングに注意しなければならない
+しかし脆弱性を含むためクロスサイトスクリプティングに注意しなければならない  
+TODO: 要勉強
+
+### v-show
+---
+
+```html
+<div id="app-103">
+  <input type="checkbox" @click="change" checked>
+  <span v-show="seen">Hello!</span>
+</div>
+<script>
+var app103 = new Vue({
+  el: '#app-103',
+  data: { seen: true },
+  methods: {
+    change: function(e) {
+      this.seen = e.target.checked
+    }
+  }
+})
+</script>
+```

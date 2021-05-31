@@ -1,57 +1,187 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<title>Vue TEST</title>
-<!-- Vue.js を読み込む -->
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-</head>
-<body>
-
-<div id="app-1">{{ message }}</div>  <!-- {{ message }} が Vueデータに置換される -->
-
-<div id="app-101">
-  <div v-text="message"></div>   <!-- この行と -->
-  <div>{{ message }}</div>       <!-- この行は、同じ意味を持ちます -->
-</div>
-
-<div id="app-102">
-  <div v-text="message"></div>    <!-- 置換される -->
-  <div v-html="message"></div>    <!-- 置換されない -->
-</div>
-
-<div id="app-103">
-  <input type="checkbox" @click="change" checked>
-  <span v-show="seen">Hello!</span>
-</div>
-
-<script>
-var app1 = new Vue({
-  el: '#app-1',                        /* #app-1 要素に対して Vue を適用する */
-  data: { message: 'Hello world!' }    /* message という名前のデータを定義する */
-})
-
-var app101 = new Vue({
-  el: '#app-101',
-  data: { message: 'Hello!' }
-})
-
-var app102 = new Vue({
-  el: '#app-102',
-  data: { message: '<b>Hello!</b>' }
-})
-
-var app103 = new Vue({
-  el: '#app-103',
-  data: { seen: true },
-  methods: {
-    change: function(e) {
-      this.seen = e.target.checked
+  <meta charset="utf-8">
+  <title>Vue TEST</title>
+  <style>
+    [v-cloak] {
+      display: none
     }
-  }
-})
-</script>
+  </style>
+  <!-- Vue.js を読み込む -->
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+
+<body>
+  <div id="app-1">{{ message }}</div> <!-- {{ message }} が Vueデータに置換される -->
+
+  <div id="app-101">
+    <div v-text="message"></div> <!-- この行と -->
+    <div>{{ message }}</div> <!-- この行は、同じ意味を持ちます -->
+  </div>
+
+  <div id="app-102">
+    <div v-text="message"></div> <!-- 置換される -->
+    <div v-html="message"></div> <!-- 置換されない -->
+  </div>
+
+  <div id="app-103">
+    <input type="checkbox" @click="change" checked>
+    <span v-show="seen">Hello!</span>
+  </div>
+
+  <div id="app-104">
+    <input type="checkbox" @click="change" checked>
+    <span v-if="seen">Hello!</span>
+  </div>
+
+  <div id="app-105">
+    <input type="checkbox" @click="change" checked>
+    <span v-if="seen">Hello!</span>
+    <span v-else>Bye!</span>
+  </div>
+
+  <div id="app-106">
+    <input type="radio" name="app106-type" onclick="app106.type='A'" checked>
+    <input type="radio" name="app106-type" onclick="app106.type='B'">
+    <input type="radio" name="app106-type" onclick="app106.type='C'">
+    <span v-if="type=='A'">Good morning.</span>
+    <span v-else-if="type=='B'">Hello!</span>
+    <span v-else>Bye!</span>
+  </div>
+
+  <div id="app-107">
+    <ul>
+      <li v-for="color in colorList">{{ color }}</li>
+    </ul>
+  </div>
+
+  <div id="app-108">
+    <button v-on:click.right="hello">Hello</button>
+    <button @click.once="hello">Hello</button>
+  </div>
+
+  <div id="app-109">
+    <input type="button" v-bind:value="message">
+    <input type="button" :value="message">
+  </div>
+
+  <div id="app-120">
+    <input v-model="message">
+    <div>Message: {{ message }}</div>
+  </div>
+
+  <div id="app-121">
+    <div v-pre>Message: {{ message }}</div>
+    <div>Message: {{ message }}</div>
+  </div>
+
+  <div id="app-122">
+    <button onclick="location.reload()">再表示</button>
+    <div>Message: <span v-cloak>{{ message }}</span></div>
+    <div>Message: <span>{{ message }}</span></div>
+  </div>
+
+  <div id="app-123">
+    <input type="text" name="text1" v-model:value="message">
+    <div>Message: <span v-once>{{ message }}</span></div>
+    <div>Message: <span>{{ message }}</span></div>
+  </div>
+
+  <script>
+    window.setTimeout(function () {
+      var app122 = new Vue({
+        el: '#app-122',
+        data: { message: 'Hello!' }
+      })
+    }, 1000);
+
+    const app1 = new Vue({
+      el: '#app-1',                        /* #app-1 要素に対して Vue を適用する */
+      data: { message: 'Hello world!' }    /* message という名前のデータを定義する */
+    })
+
+    const app101 = new Vue({
+      el: '#app-101',
+      data: { message: 'Hello!' }
+    })
+
+    const app102 = new Vue({
+      el: '#app-102',
+      data: { message: '<b>Hello!</b>' }
+    })
+
+    const app103 = new Vue({
+      el: '#app-103',
+      data: { seen: true },
+      methods: {
+        change: function (e) {
+          this.seen = e.target.checked
+        }
+      }
+    })
+
+    const app104 = new Vue({
+      el: '#app-104',
+      data: { seen: true },
+      methods: {
+        change: function (e) {
+          this.seen = e.target.checked
+        }
+      }
+    })
+
+    const app105 = new Vue({
+      el: '#app-105',
+      data: { seen: true },
+      methods: {
+        change: function (e) {
+          this.seen = e.target.checked
+        }
+      }
+    })
+
+    const app106 = new Vue({
+      el: '#app-106',
+      data: { type: 'A' }
+    })
+
+    const app107 = new Vue({
+      el: '#app-107',
+      data: { colorList: ['Red', 'Green', 'Blue'] }
+    })
+
+    const app108 = new Vue({
+      el: '#app-108',
+      methods: {
+        hello: function () {
+          alert("Hello!");
+        }
+      }
+    })
+
+    const app109 = new Vue({
+      el: '#app-109',
+      data: { message: 'Hello!' }
+    })
+
+    const app120 = new Vue({
+      el: '#app-120',
+      data: { message: 'Hello!' }
+    })
+
+    const app121 = new Vue({
+      el: '#app-121',
+      data: { message: 'Hello' }
+    })
+
+    const app123 = new Vue({
+      el: '#app-123',
+      data: { message: 'Hello' }
+    })
+  </script>
 
 </body>
-</html>
 
+</html>

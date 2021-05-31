@@ -23,7 +23,7 @@ npm:説明
 ### Hello World
 Hello worldではVue.jsの基本的な使い方を勉強します。  
 
-利用方法
+利用方法  
 CDN:  
 scriptタグでCDNで公開されているライブラリを利用する  
 ```html
@@ -33,10 +33,76 @@ scriptタグでCDNで公開されているライブラリを利用する
 npm:  
 npmでvueをインストールする  
 ```bash
-npm install vue
+$ npm install vue
 ```
 インストールされたvueはnode_modules/vue/distディレクトリ下にあるので  
 ```html
 <script src="./node_modules/vue/dist/vue.js"></script>
 ```
 というようにしてライブラリを利用する  
+
+### ディレクティブ
+### v-text
+---
+
+```html
+<div id="app-101">
+  <div v-text="message"></div>   <!-- この行と -->
+  <div>{{ message }}</div>       <!-- この行は、同じ意味を持ちます -->
+</div>
+
+<script>
+  var app101 = new Vue({
+    el: '#app-101',
+    data: { message: 'Hello!' }
+  })
+</script>
+```
+
+### v-html
+---
+
+```html
+<div id="app-102">
+  <div v-text="message"></div>    <!-- 置換される -->
+  <div v-html="message"></div>    <!-- 置換されない -->
+</div>
+<script>
+var app102 = new Vue({
+  el: '#app-102',
+  data: { message: '<b>Hello!</b>' }
+})
+</script>
+```
+
+このようにhtmlタグを読み取って描画してくれる  
+しかし脆弱性を含むためクロスサイトスクリプティングに注意しなければならない  
+TODO: 要勉強
+
+### v-show
+---
+
+```html
+<div id="app-103">
+  <input type="checkbox" @click="change" checked>
+  <span v-show="seen">Hello!</span>
+</div>
+<script>
+var app103 = new Vue({
+  el: '#app-103',
+  data: { seen: true },
+  methods: {
+    change: function(e) {
+      this.seen = e.target.checked
+    }
+  }
+})
+</script>
+```
+
+v-showで指定されたプロパティの真偽値をとってきてtrueなら表示、falseならstyle="display: none;"として非表示にする  
+また、vue用のメソッドを用意することができ、methods: {}の中に  
+<br>
+*メソッド名: 関数定義*  
+<br>
+とすることでメソッドを定義することができ、htmlのタグで@click="関数名"とすることでイベント駆動で関数を呼び出すことができる  

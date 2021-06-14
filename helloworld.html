@@ -89,9 +89,40 @@
     <div>Message: <span>{{ message }}</span></div>
   </div>
 
+  <div id="app-140">
+    <my-element-140></my-element-140>
+  </div>
+
+  <div id="app-141">
+    <my-component-141></my-component-141>
+  </div>
+
+  <div id="app-142">
+    <div>{{ message }}</div>
+  </div>
+
+  <div id="app-143">
+    <input type="button" @click="addBlue" value="Add">
+    <input type="button" @click="deleteBlue" value="Delete">
+    <ul>
+      <li v-for="(value, key) in colorList">{{ key }} = {{ value }}</li>
+    </ul>
+  </div>
+
+  <div id="app-144">
+    <div v-font16>Hello!</div>
+  </div>
+
+  <div id="app-145">
+    <div>{{ message | toupper }}</div>
+  </div>
+
   <script>
+    // var VueRouter = require('vue-router');
+    // Vue.use(VueRouter);
+
     window.setTimeout(function () {
-      var app122 = new Vue({
+      const app122 = new Vue({
         el: '#app-122',
         data: { message: 'Hello!' }
       })
@@ -180,6 +211,80 @@
       el: '#app-123',
       data: { message: 'Hello' }
     })
+
+    Vue.component('my-element-140', {
+      template: '<strong>Hello</strong>'
+    })
+    const app140 = new Vue({
+      el: '#app-140',
+    })
+
+    const MyComponent141 = Vue.extend({
+      template: '<strong>Hello!</strong>'
+    })
+    Vue.component('my-component-141', MyComponent141)
+    const app141 = new Vue({
+      el: '#app-141',
+    })
+
+    const app142 = new Vue({
+      el: '#app-142',
+      data: {
+        message: 'Hello!',
+        msg1: '',
+        msg2: ''
+      }
+    })
+    app142.message = 'Bye!'
+    console.log(app142.$el.textContent);
+    Vue.nextTick(function () {
+      console.log(app142.$el.textContent);
+    })
+
+    var app143 = new Vue({
+      el: '#app-143',
+      data: {
+        colorList: {
+          red: '#f00',
+          green: '#0f0'
+        }
+      },
+      methods: {
+        addBlue: function () {
+          Vue.set(this.colorList, 'blue', '#00f')
+        },
+        deleteBlue: function () {
+          Vue.delete(this.colorList, 'blue')
+        }
+      }
+    })
+
+    // カスタムディレクティブ
+    Vue.directive('font16', {
+      inserted: function (el) {
+        el.style.fontSize = '16pt';
+        el.style.fontWeight = 'bold';
+      }
+    })
+    var app144 = new Vue({
+      el: '#app-144'
+    })
+
+    Vue.filter('toupper', function (value) {
+      return value.toUpperCase()
+    })
+    var app145 = new Vue({
+      el: '#app-145',
+      data: { message: 'Hello!' }
+    })
+
+    Vue.mixin({
+      created: function () {
+        console.log(this);
+      }
+    })
+
+    console.log(Vue.version);
   </script>
 
 </body>

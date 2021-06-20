@@ -117,6 +117,20 @@
     <div>{{ message | toupper }}</div>
   </div>
 
+  <div id="app-210" v-text="message"></div>
+
+  <div id="app-211">
+    <my-element-211></my-element-211>
+  </div>
+
+  <div id="app-212">
+    <my-heading-212 :level="1">Hello!</my-heading-212>
+  </div>
+
+  <div id="app-213">
+    <app213-heading :level="1">Hello!</app213-heading>
+  </div>
+
   <script>
     // var VueRouter = require('vue-router');
     // Vue.use(VueRouter);
@@ -227,6 +241,7 @@
       el: '#app-141',
     })
 
+    // DOM更新サイクル後の実行(nextTick)
     const app142 = new Vue({
       el: '#app-142',
       data: {
@@ -278,6 +293,7 @@
       data: { message: 'Hello!' }
     })
 
+    // mixin 今後やる予定
     Vue.mixin({
       created: function () {
         console.log(this);
@@ -285,6 +301,45 @@
     })
 
     console.log(Vue.version);
+
+    // el
+    var app210 = new Vue({
+      el: '#app-210',
+      data: { message: 'Hello!' }
+    })
+
+    // template
+    Vue.component('my-element-211', {
+      template: '<span>Hello!</span>'
+    })
+    var app211 = new Vue({
+      el: '#app-211',
+    })
+
+    // レンダリング関数(render) 動的なテンプレートを作成できる
+    Vue.component('my-heading-212', {
+      render: function (createElement) {
+        return createElement('h' + this.level, this.$slots.default)
+      },
+      props: ['level']
+    })
+    var app212 = new Vue({
+      el: '#app-212',
+    })
+
+    // レンダリングエラーハンドリング
+    Vue.component('app213-heading', {
+      render: function (createElement) {
+        throw new Error('err213')
+      },
+      renderError: function (ce, err) {
+        return ce('pre', { style: { color: 'red' } }, err.stack)
+      },
+      props: ['level']
+    })
+    var app213 = new Vue({
+      el: '#app-213',
+    })
   </script>
 
 </body>

@@ -131,6 +131,29 @@
     <app213-heading :level="1">Hello!</app213-heading>
   </div>
 
+  <div id="app-250">
+    <div v-font16>Hello!</div>
+  </div>
+
+  <div id="app-251">
+    <div>{{ message | toupper }}</div>
+    <div>{{ message | tolower }}</div>
+  </div>
+
+  <div id="app-252">
+    <my-comp1></my-comp1>
+    <my-comp2></my-comp2>
+    <my-comp3></my-comp3>
+  </div>
+
+  <div id="app-261">
+    <input type="button" @click="hello" value="Hello">
+  </div>
+
+  <div id="app-301">
+    <input type="text" @keyup.alt-h="help">
+  </div>
+
   <script>
     // var VueRouter = require('vue-router');
     // Vue.use(VueRouter);
@@ -256,6 +279,8 @@
       console.log(app142.$el.textContent);
     })
 
+    // 非リアクティブデータの設定、dataはgetter, setterをもち、それを用いることでVueが値を取得したり設定した際の変更を監視する
+    // このやり方をしないで変更をすると変更を検知できずリアルタイムに更新されない
     var app143 = new Vue({
       el: '#app-143',
       data: {
@@ -340,6 +365,101 @@
     var app213 = new Vue({
       el: '#app-213',
     })
+
+    // カスタムディレクティブ
+    var app250 = new Vue({
+      el: '#app-250',
+      directives: {
+        font16: {
+          inserted: function (el) {
+            el.style.fontSize = '16pt'
+          }
+        }
+      }
+    })
+
+    // フィルタ
+    var app251 = new Vue({
+      el: '#app-251',
+      data: { message: 'Hello!' },
+      filters: {
+        toupper: function (value) {
+          return (value.toUpperCase())
+        },
+        tolower: function (value) {
+          return (value.toLowerCase())
+        }
+      }
+    })
+
+    // コンポーネント
+    var MyComp1 = { template: '<div style="color:red">Hello!</div>' }
+    var MyComp2 = { template: '<div style="color:green">Hello!</div>' }
+    var MyComp3 = { template: '<div style="color:blue">Hello!</div>' }
+    var app252 = new Vue({
+      el: '#app-252',
+      components: {
+        'my-comp1': MyComp1,
+        'my-comp2': MyComp2,
+        'my-comp3': MyComp3
+      }
+    })
+
+    // mixin ある機能をライブラリのように取り込んで使う(再利用)ことができる
+    var myMixin = {
+      methods: {
+        hello: function () {
+          alert("Hello!");
+        }
+      }
+    }
+    var app261 = new Vue({
+      el: '#app-261',
+      mixins: [myMixin]
+    })
+
+    // コンフィグ
+
+    // 警告やログの出力を抑止する
+    Vue.config.silint = true
+
+    // 開発モード切り替え true -> 開発モード, false -> 本番モード
+    Vue.config.devtools = true
+
+    // エラーハンドラの設定
+    Vue.config.errorHandler = function (err, vm, info) { /* ... */ }
+
+    // 警告ハンドラの設定
+    Vue.config.warnHandler = function (msg, vm, trace) { /* ... */ }
+
+    // 無視エレメント, Vue外部で作成されたWebコンポーネントのカスタムタグを無視するよう設定できる
+    // 正規表現も使える
+    Vue.config.ignoredElements = [
+      'my-custom-web-component',
+      'another-web-component',
+      /^ion-/
+    ]
+
+    // キーコード, @keyup等で使われるキーコードの指定
+    // 18はAltキー, 72はhのキーコード、-でつなぐキーコードの場合""で囲む
+    Vue.config.keyCodes = {
+      h: 72,
+      "alt-h": [18, 72]
+    }
+    var app301 = new Vue({
+      el: '#app-301',
+      methods: {
+        help: function () {
+          alert("Help ...");
+        }
+      }
+    })
+
+    // パフォーマンス、trueにすると開発者ツールのタイムライン機能でパフォーマンスデータを詳細に表示することができる
+    Vue.config.performance = true
+
+    // プロダクションチップ、falseにすると起動時の製品ヒント情報の出力を抑止してくれる
+    Vue.config.productionTip = false
   </script>
 
 </body>

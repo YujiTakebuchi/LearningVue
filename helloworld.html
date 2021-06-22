@@ -117,6 +117,33 @@
     <div>{{ message | toupper }}</div>
   </div>
 
+  <div id="app-200">表示されないはず</div>
+
+  <div id="app-201">{{ message }}</div>
+
+  <div id="app-202">
+    <my-element-202 value="Hello!"></my-element-202>
+  </div>
+
+  <div id="app-203">
+    <div id="el-203"></div>
+  </div>
+
+  <div id="app-205">
+    <button @click="toUpper">Upper</button>
+    <button @click="toLower">Lower</button>
+    <div>{{ message }}</div>
+  </div>
+
+  <div id="app-206">
+    <form>
+      <input type="text" name="text1" :value="message">
+      <input type="button" @click="change" value="Change">
+    </form>
+    <div>変更前: {{ oldmsg }}</div>
+    <div>変更後: {{ newmsg }}</div>
+  </div>
+
   <div id="app-210" v-text="message"></div>
 
   <div id="app-211">
@@ -256,6 +283,8 @@
       el: '#app-140',
     })
 
+    // extend：サブクラス
+    // Vue.extend()はVue.componentの第二引数で指定可能なコンポーネントのサブクラスを生成する
     const MyComponent141 = Vue.extend({
       template: '<strong>Hello!</strong>'
     })
@@ -325,7 +354,90 @@
       }
     })
 
+    // コンパイル {{ message }} などの文字列をあらかじめコンパイルする
+    var res = Vue.compile('<div>{{ message }}</div>');
+    var app200 = new Vue({
+      el: "#app-200",
+      data: { message: 'Hello!' },
+      render: res.render,
+      staticRenderFns: res.staticRenderFns
+    })
+
+    // Vue.jsのバージョンを取得できる
     console.log(Vue.version);
+
+    // dataは {{ ... }}, v-bin, v-modelなどで参照されるデータを格納する
+    var app201 = new Vue({
+      el: '#app-201',
+      data: { message: 'Hello!' }
+    })
+
+    // props：コンポーネントにパラメータを引き渡す
+    // propsを用いることでtemplate内で使用する属性を定義できる
+    // 今回の例ではvalue属性をpropsで宣言することによってtemplate内部でvalueの値を参照することができる
+    // 子コンポーネントから親コンポーネントの値を参照する際に用いるprops?
+    Vue.component('my-element-202', {
+      props: ['value'],
+      template: '<div>{{ value }}</div>'
+    })
+    var app202 = new Vue({
+      el: '#app-202'
+    })
+
+    // propsData：インスタンス作成中データ
+    // インスタンス作成中のpropsデータを指定
+    // 単体テストをする時に用いる
+    var MyElement203 = Vue.extend({
+      props: ['message'],
+      template: '<div>{{ message }}</div>'
+    })
+    var vm = new MyElement203({
+      propsData: { message: 'Hello!' }
+    }).$mount('#el-203');
+    var app203 = new Vue({
+      el: '#app-203'
+    })
+
+    // methods：メソッド
+    // methodsはv-onのイベントハンドラとして呼ばれるメソッドを定義できる
+    // @はv-onの省略記法
+    var app205 = new Vue({
+      el: '#app-205',
+      data: {
+        message: 'Hello'
+      },
+      methods: {
+        toUpper: function () {
+          this.message = this.message.toUpperCase();
+        },
+        toLower: function () {
+          this.message = this.message.toLowerCase();
+        }
+      }
+    })
+
+    // watch：監視
+    // watchはデータの変動を監視する
+    // データ変動時にコールバック関数が呼ばれ、引数には変更前の値と変更後の値が渡される
+    var app206 = new Vue({
+      el: '#app-206',
+      data: {
+        message: 'new',
+        newmsg: 'new',
+        oldmsg: 'old'
+      },
+      watch: {
+        message: function (newVal, oldVal) {
+          this.newmsg = newVal;
+          this.oldmsg = oldVal;
+        }
+      },
+      methods: {
+        change: function (e) {
+          this.message = e.target.form.text1.value;
+        }
+      }
+    })
 
     // el
     var app210 = new Vue({

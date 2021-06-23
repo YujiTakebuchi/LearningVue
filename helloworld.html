@@ -14,23 +14,28 @@
 </head>
 
 <body>
+  <!-- basic -->
   <div id="app-1">{{ message }}</div> <!-- {{ message }} が Vueデータに置換される -->
 
+  <!-- v-text -->
   <div id="app-101">
     <div v-text="message"></div> <!-- この行と -->
     <div>{{ message }}</div> <!-- この行は、同じ意味を持ちます -->
   </div>
 
+  <!-- v-html -->
   <div id="app-102">
     <div v-text="message"></div> <!-- 置換される -->
     <div v-html="message"></div> <!-- 置換されない -->
   </div>
 
+  <!-- v-show -->
   <div id="app-103">
     <input type="checkbox" @click="change" checked>
     <span v-show="seen">Hello!</span>
   </div>
 
+  <!-- v-if -->
   <div id="app-104">
     <input type="checkbox" @click="change" checked>
     <span v-if="seen">Hello!</span>
@@ -185,13 +190,6 @@
     // var VueRouter = require('vue-router');
     // Vue.use(VueRouter);
 
-    window.setTimeout(function () {
-      const app122 = new Vue({
-        el: '#app-122',
-        data: { message: 'Hello!' }
-      })
-    }, 1000);
-
     const app1 = new Vue({
       el: '#app-1',                        /* #app-1 要素に対して Vue を適用する */
       data: { message: 'Hello world!' }    /* message という名前のデータを定義する */
@@ -217,6 +215,8 @@
       }
     })
 
+    // v-if：data内部の真偽値を元に描画する・しないを制御する
+    // v-showではstyleのディスプレイ要素をnoneにするのに対してv-ifではそもそもタグを追加しないようにする
     const app104 = new Vue({
       el: '#app-104',
       data: { seen: true },
@@ -270,6 +270,13 @@
       el: '#app-121',
       data: { message: 'Hello' }
     })
+
+    window.setTimeout(function () {
+      const app122 = new Vue({
+        el: '#app-122',
+        data: { message: 'Hello!' }
+      })
+    }, 1000);
 
     const app123 = new Vue({
       el: '#app-123',

@@ -46,6 +46,7 @@ $ npm install vue
 ---
 
 ```html
+<!-- v-text -->
 <div id="app-101">
   <div v-text="message"></div>   <!-- この行と -->
   <div>{{ message }}</div>       <!-- この行は、同じ意味を持ちます -->
@@ -63,6 +64,7 @@ $ npm install vue
 ---
 
 ```html
+<!-- v-html -->
 <div id="app-102">
   <div v-text="message"></div>    <!-- 置換される -->
   <div v-html="message"></div>    <!-- 置換されない -->
@@ -83,6 +85,7 @@ TODO: 要勉強
 ---
 
 ```html
+<!-- v-show -->
 <div id="app-103">
   <input type="checkbox" @click="change" checked>
   <span v-show="seen">Hello!</span>
@@ -105,4 +108,32 @@ v-showで指定されたプロパティの真偽値をとってきてtrueなら�
 <br>
 *メソッド名: 関数定義*  
 <br>
-とすることでメソッドを定義することができ、htmlのタグで@click="関数名"とすることでイベント駆動で関数を呼び出すことができる  
+とすることでメソッドを定義することができ、htmlのタグで@click="関数名"とすることで関数を呼び出すことができます  
+@はv-onの省略記法で@に続く修飾子に対応するイベントハンドラを定義することができます  
+**＊のちのapp-108参照**  
+
+### v-if  
+---  
+
+```html
+<!-- v-if -->
+<div id="app-104">
+  <input type="checkbox" @click="change" checked>
+  <span v-if="seen">Hello!</span>
+</div>
+<script>
+  const app104 = new Vue({
+    el: '#app-104',
+    data: { seen: true },
+    methods: {
+      change: function (e) {
+        this.seen = e.target.checked
+      }
+    }
+  })
+</script>
+```
+
+v-ifで指定されたプロパティの真偽値をとってきてtrueなら描画、falseなら描画しないというように制御する  
+v-showではstyleでdisplay:noneとして非表示にするのに対してv-ifではそもそも要素の有無によって描画する・しないを制御できる  
+

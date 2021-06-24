@@ -216,6 +216,6 @@ v-ifの条件に当てはまらなかった場合の他の条件に該当する�
 <br>
 
 data内部の配列を元にループによる描画処理を制御する  
-v-for="item in itemList"の書き方  
+v-for="item in itemList"の書き方  
 item:配列の要素, itemList:data内部の配列  
 で配列の要素数回描画する

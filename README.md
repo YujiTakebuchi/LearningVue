@@ -29,13 +29,16 @@ scriptタグでCDNで公開されているライブラリを利用する
 ```html
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 ```
+<br>
 
 npm:  
 npmでvueをインストールする  
 ```bash
 $ npm install vue
 ```
+<br>
 インストールされたvueはnode_modules/vue/distディレクトリ下にあるので  
+
 ```html
 <script src="./node_modules/vue/dist/vue.js"></script>
 ```
@@ -59,6 +62,7 @@ $ npm install vue
   })
 </script>
 ```
+<br>
 
 ### v-html
 ---
@@ -76,6 +80,7 @@ var app102 = new Vue({
 })
 </script>
 ```
+<br>
 
 このようにhtmlタグを読み取って描画してくれる  
 しかし脆弱性を含むためクロスサイトスクリプティングに注意しなければならない  
@@ -102,6 +107,7 @@ var app103 = new Vue({
 })
 </script>
 ```
+<br>
 
 v-showで指定されたプロパティの真偽値をとってきてtrueなら表示、falseならstyle="display: none;"として非表示にする  
 また、vue用のメソッドを用意することができ、methods: {}の中に  
@@ -133,7 +139,83 @@ v-showで指定されたプロパティの真偽値をとってきてtrueなら�
   })
 </script>
 ```
+<br>
 
 v-ifで指定されたプロパティの真偽値をとってきてtrueなら描画、falseなら描画しないというように制御する  
 v-showではstyleでdisplay:noneとして非表示にするのに対してv-ifではそもそも要素の有無によって描画する・しないを制御できる  
 
+### v-else
+---
+
+```html
+<!-- v-else -->
+<div id="app-105">
+  <input type="checkbox" @click="change" checked>
+  <span v-if="seen">Hello!</span>
+  <span v-else>Bye!</span>
+</div>
+<script>
+  const app105 = new Vue({
+    el: '#app-105',
+    data: { seen: true },
+    methods: {
+      change: function (e) {
+        this.seen = e.target.checked
+      }
+    }
+  })
+</script>
+```
+<br>
+
+v-ifにあてはまらなかった場合の描画処理を制御する  
+if else  
+
+### v-else-if
+---
+
+```html
+<!-- v-else-if -->
+<div id="app-106">
+  <input type="radio" name="app106-type" onclick="app106.type='A'" checked>
+  <input type="radio" name="app106-type" onclick="app106.type='B'">
+  <input type="radio" name="app106-type" onclick="app106.type='C'">
+  <span v-if="type=='A'">Good morning.</span>
+  <span v-else-if="type=='B'">Hello!</span>
+  <span v-else>Bye!</span>
+</div>
+<script>
+  const app106 = new Vue({
+    el: '#app-106',
+    data: { type: 'A' }
+  })
+</script>
+```
+<br>
+
+v-ifの条件に当てはまらなかった場合の他の条件に該当する場合の描画処理を制御する  
+条件の書き方はv-ifと同じ  
+
+### v-for
+---
+
+```html
+<!-- v-for -->
+<div id="app-107">
+  <ul>
+    <li v-for="color in colorList">{{ color }}</li>
+  </ul>
+</div>
+<script>
+  const app107 = new Vue({
+    el: '#app-107',
+    data: { colorList: ['Red', 'Green', 'Blue'] }
+  })
+</script>
+```
+<br>
+
+data内部の配列を元にループによる描画処理を制御する  
+v-for="item in itemList"の書き方  
+item:配列の要素, itemList:data内部の配列  
+で配列の要素数回描画する

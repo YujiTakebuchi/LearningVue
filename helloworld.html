@@ -41,12 +41,14 @@
     <span v-if="seen">Hello!</span>
   </div>
 
+  <!-- v-else -->
   <div id="app-105">
     <input type="checkbox" @click="change" checked>
     <span v-if="seen">Hello!</span>
     <span v-else>Bye!</span>
   </div>
 
+  <!-- v-else-if -->
   <div id="app-106">
     <input type="radio" name="app106-type" onclick="app106.type='A'" checked>
     <input type="radio" name="app106-type" onclick="app106.type='B'">
@@ -56,6 +58,7 @@
     <span v-else>Bye!</span>
   </div>
 
+  <!-- v-for -->
   <div id="app-107">
     <ul>
       <li v-for="color in colorList">{{ color }}</li>
@@ -190,21 +193,30 @@
     // var VueRouter = require('vue-router');
     // Vue.use(VueRouter);
 
+    // 基本形
     const app1 = new Vue({
       el: '#app-1',                        /* #app-1 要素に対して Vue を適用する */
       data: { message: 'Hello world!' }    /* message という名前のデータを定義する */
     })
 
+    // v-text：data内部のプロパティの文字列を描画する
+    // v-text="..."と{{ ... }}は同じ意味
     const app101 = new Vue({
       el: '#app-101',
       data: { message: 'Hello!' }
     })
 
+    // v-html：htmlタグを読み取って描画する
+    // v-textだとただの文字列としてそのまま描画されてしまう
+    // クロスサイトスクリプティングに注意
     const app102 = new Vue({
       el: '#app-102',
       data: { message: '<b>Hello!</b>' }
     })
 
+    // v-show：data内部のプロパティの真偽値を元に表示・非表示を制御する
+    // v-show="..."でプロパティを指定する
+    // 対象のタグにstyle="display:none"を追加して非表示にする
     const app103 = new Vue({
       el: '#app-103',
       data: { seen: true },
@@ -215,7 +227,7 @@
       }
     })
 
-    // v-if：data内部の真偽値を元に描画する・しないを制御する
+    // v-if：data内部のプロパティの真偽値を元に描画する・しないを制御する
     // v-showではstyleのディスプレイ要素をnoneにするのに対してv-ifではそもそもタグを追加しないようにする
     const app104 = new Vue({
       el: '#app-104',
@@ -227,6 +239,8 @@
       }
     })
 
+    // v-else：上のv-ifの条件に当てはまらない場合の描画処理を制御する
+    // 基本的なif else
     const app105 = new Vue({
       el: '#app-105',
       data: { seen: true },
@@ -237,11 +251,15 @@
       }
     })
 
+    // v-else-if：v-ifの条件に当てはまらなかった場合の他の条件に該当する場合の描画処理を制御する
+    // 基本的なif else-if else
     const app106 = new Vue({
       el: '#app-106',
       data: { type: 'A' }
     })
 
+    // v-for：data内部の配列を元にループによる描画処理を制御する
+    // v-for="item in itemList", item:配列の要素, itemList:data内部の配列 で配列の要素数回描画する
     const app107 = new Vue({
       el: '#app-107',
       data: { colorList: ['Red', 'Green', 'Blue'] }
